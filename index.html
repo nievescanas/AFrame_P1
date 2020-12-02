@@ -8,10 +8,12 @@
   <body>
     <a-scene>
       <!-- Elementos activos -->
-      <!--<a-assets>
-         <img id="skyTexture" src="sky1.png" >
-        <img id="groundTexture" src="3984.jpg" >
-      </a-assets>-->
+      <a-assets>
+        <a-asset-item id="crate-obj" src="assets/tree_obj.obj"></a-asset-item>
+        <a-asset-item id="crate-mtl" src="assets/tree_obj.mtl"></a-asset-item>
+      <!-- <img id="skyTexture" src="sky1.png" >
+        <img id="groundTexture" src="3984.jpg" >-->
+      </a-assets>
       <!-- Escena -->
       <!-- Sky -->
       <!--<a-sky id="sky" radius="10" src="#skyTexture" theta-length="90"></a-sky>-->
@@ -19,6 +21,7 @@
       <a-entity light="type: ambient; color: #BBB"></a-entity>
       <a-entity id="directional" light="type: directional; color: #FFF; intensity: 0.6" position="0.7 0.6 -1"></a-entity>
 
+      <a-obj-model src="#crate-obj" mtl="#crate-mtl" position=" 5 0 "></a-obj-model>
       <a-sphere position="0 1.6 -5" radius="0.6" color="#EF2D5E" shadow></a-sphere>
       <!-- Ground -->
       <a-cylinder id="ground"  radius="10" height="0" color="#7BC8A4"  transparent:true shadow></a-cylinder>
