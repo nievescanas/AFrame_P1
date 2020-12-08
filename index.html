@@ -5,39 +5,54 @@
     <title>AFrame_P1</title>
         <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
         <script src="https://unpkg.com/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
-        <script src="https://unpkg.com/aframe-teleport-controls@0.2.0/dist/aframe-teleport-controls.min.js"></script>
-        <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.2/dist/aframe-controller-cursor-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+        <!--  <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+              <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+              <script src="https://unpkg.com/aframe-teleport-controls@0.2.0/dist/aframe-teleport-controls.min.js"></script>
+              <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.2/dist/aframe-controller-cursor-component.min.js"></script>
+        -->
         <script src="christmas_balls.js"></script>
+        <script src="move_objects.js"></script>
   </head>
   <body>
-    <a-scene>
-      <!-- Elementos activos -->
+    <a-scene physics="debug: true">
+      <!-- Active elements -->
       <a-assets>
         <a-asset-item id="tree-obj" src="assets/tree_obj.obj"></a-asset-item>
         <a-asset-item id="tree-mtl" src="assets/tree_obj.mtl"></a-asset-item>
         <a-asset-item id="island-obj" src="assets/environment.obj"></a-asset-item>
-        <a-asset-item id="island-mtl" src="assets/environment.mtl"></a-asset-item>  -->
-        <!-- Christmas_balls -->
-        <a-mixin id="ball"
-           geometry="primitive: sphere; height: 0.5; width: 0.5; depth: 0.5"
-           material="shader: standard"
-           position= "1 1 1"
-        ></a-mixin>
+        <a-asset-item id="island-mtl" src="assets/environment.mtl"></a-asset-item>
+        <img id="img-rock"src="assets\textures\rc1.jpg">
       </a-assets>
 
-      <!-- Camera. -->
+      <!-- Camera. kinematic-body="radius:0.5; mass:5"-->
       <a-camera>
-        <a-cursor christmas_balls></a-cursor>
+        <a-cursor ></a-cursor>
       </a-camera>
 
       <!-- Escena -->
       <a-simple-sun-sky sun-position="0.7 0.6 -1"></a-simple-sun-sky>
       <a-entity light="type: ambient; color: #BBB"></a-entity>
       <a-entity id="directional" light="type: directional; color: #FFF; intensity: 0.6" position="0.7 0.6 -1"></a-entity>
-      <!-- Ground -->
-      <a-obj-model  cursor-listener src="#tree-obj" mtl="#tree-mtl" position="7.418 0.112 2.543" rotation="0 0 0" scale="0.5 0.5 0.5" visible="true" static-body material="" obj-model="obj:#tree-obj;mtl:#tree-mtl"></a-obj-model>
-      <a-obj-model src="#island-obj" mtl="#island-mtl" position="-0.946 -1.708 18.889" rotation="0 0 0" scale="0.05 0.05 0.05" visible="true" static-body material="" obj-model="obj:#island-obj;mtl:#island-mtl"></a-obj-model>
 
+      <!-- Ground -->
+      <a-obj-model src="#island-obj" mtl="#island-mtl" position="-0.946 -1.708 18.889" rotation="0 0 0" scale="0.05 0.05 0.05" visible="true"></a-obj-model>
+
+      <!-- Objects-model -->
+      <a-obj-model src="#tree-obj" mtl="#tree-mtl" position="7.418 0.112 2.543" rotation="0 0 0" scale="0.5 0.5 0.5" visible="true"
+        christmas_balls="event: click">
+      </a-obj-model>
+
+      <!-- Informative sign -->
+      <a-plane color="#C70039" height="0.2" width="1" position="6.981 1.316 0.852" rotation="0 -90 0" scale="1 1 1" visible="true"
+        event-set__enter="_event: mouseenter; color: #8FF7FF"
+        event-set__leave="_event: mouseleave; color: #4CC3D9">
+      </a-plane>
+
+      <!-- Door -->
+      <a-box id="rock_1" static-body src="#img-rock" position="1.8 1.7 19" rotation="4 20 -1" scale="4 7.6 1" visible="true"
+        move_object="event: click; id:rock_1; move: 1 0 0 ">
+      </a-box>
       <!-- Adding Hand Controllers
       <a-entity id="teleHand" hand-controls="left"></a-entity>
       <a-entity id="blockHand" hand-controls="right" laser-controls></a-entity>   // laser-controls will emit a click event
