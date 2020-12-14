@@ -10,6 +10,7 @@ AFRAME.registerComponent('removal_object', {
   },
   init: function () {
     const data = this.data;
+    const el = this.el;
 
     el.addEventListener(data.event, evt => {
       var obj = document.getElementById(data.id);
