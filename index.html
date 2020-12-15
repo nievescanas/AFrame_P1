@@ -5,30 +5,43 @@
     <title>AFrame_P1</title>
         <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
         <script src="https://unpkg.com/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
-        <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-        <!--  <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
-              <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-              <script src="https://unpkg.com/aframe-teleport-controls@0.2.0/dist/aframe-teleport-controls.min.js"></script>
-              <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.2/dist/aframe-controller-cursor-component.min.js"></script>
-        -->
-        <script src="christmas_balls.js"></script>
-        <script src="move_objects.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+        <script src="https://unpkg.com/aframe-teleport-controls@0.2.0/dist/aframe-teleport-controls.min.js"></script>
+        <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.2/dist/aframe-controller-cursor-component.min.js"></script>
+
+        <script src="components\christmas_balls.js"></script>
+        <script src="components\move_objects.js"></script>
+        <script src="components\removal_objects.js"></script>
   </head>
   <body>
-    <a-scene physics="debug: true">
+    <a-scene physics>
       <!-- Active elements -->
       <a-assets>
         <a-asset-item id="tree-obj" src="assets/tree_obj.obj"></a-asset-item>
         <a-asset-item id="tree-mtl" src="assets/tree_obj.mtl"></a-asset-item>
         <a-asset-item id="island-obj" src="assets/environment.obj"></a-asset-item>
         <a-asset-item id="island-mtl" src="assets/environment.mtl"></a-asset-item>
+        <!--<a-asset-item id="chest-obj" src="assets\chest.obj"></a-asset-item>
+        <a-asset-item id="chest-mtl" src="assets\chest.mtl"></a-asset-item>-->
+        <a-asset-item id="radio-obj" src="assets\radio_old_obj.obj"></a-asset-item>
+        <a-asset-item id="radio-mtl" src="assets\radio_old_obj.mtl"></a-asset-item>
+        <a-asset-item id="papa-fbx" src="assets\radio_old_obj.mtl"></a-asset-item>
+
+        <a-mixin id="position1" position="2.7 -0.92 29.5" ></a-mixin>
+        <a-mixin id="box" geometry="primitive: box" material="color: black" scale= "0.5 0.5 0.5" ></a-mixin>
+
         <img id="img-rock"src="assets\textures\rc1.jpg">
+        <audio id="sound-island" src="sounds/sound_mp3.mp3"></audio>
       </a-assets>
 
-      <!-- Camera. kinematic-body="radius:0.5; mass:5"-->
+      <!-- Camera. kinematic-body="radius:0.5"-->
       <a-camera>
         <a-cursor ></a-cursor>
       </a-camera>
+
+      <!-- Ground -->
+      <a-obj-model static-body src="#island-obj" mtl="#island-mtl" position="-0.946 -1.708 18.889" rotation="0 0 0" scale="0.05 0.05 0.05" visible="true"></a-obj-model>
 
       <!-- Escena -->
       <a-simple-sun-sky sun-position="0.7 0.6 -1"></a-simple-sun-sky>
@@ -36,27 +49,37 @@
       <a-entity id="directional" light="type: directional; color: #FFF; intensity: 0.6" position="0.7 0.6 -1"></a-entity>
 
       <!-- Ground -->
-      <a-obj-model src="#island-obj" mtl="#island-mtl" position="-0.946 -1.708 18.889" rotation="0 0 0" scale="0.05 0.05 0.05" visible="true"></a-obj-model>
+      <a-obj-model static-body src="#island-obj" mtl="#island-mtl" position="-0.946 -1.708 18.889" rotation="0 0 0" scale="0.05 0.05 0.05" visible="true"></a-obj-model>
+
+      <!-- Chest
+      <a-entity mixin="position1">
+        <a-obj-model src="#chest-obj" mtl="#chest-mtl"  rotation="-90 0 0" scale="0.5 0.5 0.5" visible="true"></a-obj-model>
+      </a-entity> -->
+
+      <!-- Radio -->
+      <a-obj-model src="#radio-obj" mtl="#radio-mtl" position="-0.96 -0.78 -4.7" rotation="5.7 146 0" scale="0.5 0.5 0.5" visible="true"
+              sound="src:#sound-island;
+              on: click"
+      ></a-obj-model>
 
       <!-- Objects-model -->
       <a-obj-model src="#tree-obj" mtl="#tree-mtl" position="7.418 0.112 2.543" rotation="0 0 0" scale="0.5 0.5 0.5" visible="true"
         christmas_balls="event: click">
       </a-obj-model>
 
-      <!-- Informative sign -->
-      <a-plane color="#C70039" height="0.2" width="1" position="6.981 1.316 0.852" rotation="0 -90 0" scale="1 1 1" visible="true"
-        event-set__enter="_event: mouseenter; color: #8FF7FF"
-        event-set__leave="_event: mouseleave; color: #4CC3D9">
-      </a-plane>
-
-      <!-- Door -->
+      <!-- Rock -->
       <a-box id="rock_1" static-body src="#img-rock" position="1.8 1.7 19" rotation="4 20 -1" scale="4 7.6 1" visible="true"
         move_object="event: click; id:rock_1; move: 1 0 0 ">
       </a-box>
-      <!-- Adding Hand Controllers
+
+      <!-- Box -->
+      <a-entity id="box_1" mixin="box" removal_object="event: click; id:box_1" position="-11 2 10"></a-entity>
+      <a-entity id="box_2" mixin="box" removal_object="event: click; id:box_2" position="-11 3 10"></a-entity>
+      <a-entity id="box_3" mixin="box" removal_object="event: click; id:box_3" position="-11 4 10"></a-entity>
+
+      <!-- Adding Hand Controllers -->
       <a-entity id="teleHand" hand-controls="left"></a-entity>
-      <a-entity id="blockHand" hand-controls="right" laser-controls></a-entity>   // laser-controls will emit a click event
-      -->      <!-- Hands. -->
+      <a-entity id="blockHand" hand-controls="right" laser-controls></a-entity>
 
     </a-scene>
   </body>
